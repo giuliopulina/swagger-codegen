@@ -16,11 +16,11 @@
     {{/isContainer}}
 {{/isEnum}}
 {{#isContainer}}
-        $asserts[] = new Assert\All([
     {{#items}}
+        $asserts[] = new Assert\All([
             new Assert\Type("{{datatype}}")
-    {{/items}}
         ]);
+    {{/items}}
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}
@@ -61,10 +61,10 @@
     {{/minimum}}
     {{#maximum}}
     {{#exclusiveMaximum}}
-        $asserts[] = new Assert\LessThan({{minimum}});
+        $asserts[] = new Assert\LessThan({{maximum}});
     {{/exclusiveMaximum}}
     {{^exclusiveMaximum}}
-        $asserts[] = new Assert\LessThanOrEqual({{minimum}});
+        $asserts[] = new Assert\LessThanOrEqual({{maximum}});
     {{/exclusiveMaximum}}
     {{/maximum}}
     {{#pattern}}

@@ -150,6 +150,10 @@ class StoreController extends Controller
 
         // Read out all input parameter values into variables
 
+        // Use the default value if no value was provided
+
+        // Deserialize the input values that needs it
+
         // Validate the input values
 
 
@@ -223,7 +227,7 @@ class StoreController extends Controller
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("int");
         $asserts[] = new Assert\GreaterThanOrEqual(1);
-        $asserts[] = new Assert\LessThanOrEqual(1);
+        $asserts[] = new Assert\LessThanOrEqual(5);
         $response = $this->validate($orderId, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -306,7 +310,6 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        
         $body = $this->deserialize($body, 'Swagger\Server\Model\Order', $inputFormat);
 
         // Validate the input values

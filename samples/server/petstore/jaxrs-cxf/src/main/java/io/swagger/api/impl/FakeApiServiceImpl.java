@@ -6,6 +6,7 @@ import io.swagger.model.Client;
 import java.util.Date;
 import org.joda.time.LocalDate;
 import io.swagger.model.OuterComposite;
+import io.swagger.model.User;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -51,6 +52,12 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
+    public void testBodyWithQueryParams(User body, String query) {
+        // TODO: Implement...
+        
+        
+    }
+    
     /**
      * To test \&quot;client\&quot; model
      *
@@ -82,6 +89,18 @@ public class FakeApiServiceImpl implements FakeApi {
      *
      */
     public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) {
+        // TODO: Implement...
+        
+        
+    }
+    
+    /**
+     * test inline additionalProperties
+     *
+     * 
+     *
+     */
+    public void testInlineAdditionalProperties(Object param) {
         // TODO: Implement...
         
         

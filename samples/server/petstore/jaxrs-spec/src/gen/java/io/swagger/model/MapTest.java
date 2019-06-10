@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class MapTest  implements Serializable {
@@ -32,10 +33,12 @@ public enum InnerEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static InnerEnum fromValue(String v) {
         for (InnerEnum b : InnerEnum.values()) {
             if (String.valueOf(b.value).equals(v)) {
@@ -57,6 +60,7 @@ public enum InnerEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -73,6 +77,7 @@ public enum InnerEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }

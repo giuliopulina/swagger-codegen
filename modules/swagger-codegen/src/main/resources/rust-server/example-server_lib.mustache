@@ -1,31 +1,38 @@
-#![allow(missing_docs, unused_extern_crates)]
-extern crate chrono;
-extern crate swagger;
+//! Main library entry point for {{externCrateName}} implementation.
 
-use futures::{self, Future};
-{{#apiHasFile}}use futures::Stream;{{/apiHasFile}}
+mod server;
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-{{#apiHasFile}}use std::io::Error;{{/apiHasFile}}
+mod errors {
+    error_chain!{}
+}
 
-use {{externCrateName}}::{Api, ApiError, Context{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}},
-                      {{operationId}}Response{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
-};
-#[allow(unused_imports)]
-use {{externCrateName}}::models;
+pub use self::errors::*;
+use std::io;
+use std::clone::Clone;
+use std::marker::PhantomData;
+use hyper;
+use {{externCrateName}};
+use swagger::{Has, XSpanIdString};
+use swagger::auth::Authorization;
 
-#[derive(Copy, Clone)]
-pub struct Server;
+pub struct NewService<C>{
+    marker: PhantomData<C>
+}
 
-impl Api for Server {
-{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{#summary}}    /// {{{summary}}}{{/summary}}
-    fn {{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}(&self{{#allParams}}, {{paramName}}: {{^required}}{{#isFile}}Box<Future<Item={{/isFile}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{#isFile}}, Error=Error> + Send>{{/isFile}}{{/required}}{{/allParams}}, context: &Context) -> Box<Future<Item={{operationId}}Response, Error=ApiError> + Send> {
-        let context = context.clone();
-        println!("{{#vendorExtensions}}{{operation_id}}{{/vendorExtensions}}({{#allParams}}{{^isFile}}{{#vendorExtensions}}{{{formatString}}}{{/vendorExtensions}}{{#hasMore}}, {{/hasMore}}{{/isFile}}{{/allParams}}) - X-Span-ID: {:?}"{{#allParams}}{{^isFile}}, {{paramName}}{{/isFile}}{{/allParams}}, context.x_span_id.unwrap_or(String::from("<none>")).clone());{{#allParams}}{{#isFile}}
-        let _ = {{paramName}}; //Suppresses unused param warning{{/isFile}}{{/allParams}}
-        Box::new(futures::failed("Generic failure".into()))
+impl<C> NewService<C>{
+    pub fn new() -> Self {
+        NewService{marker:PhantomData}
     }
-{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+}
+
+impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<Authorization>>{{/hasAuthMethods}} + Clone + 'static {
+    type Request = (hyper::Request, C);
+    type Response = hyper::Response;
+    type Error = hyper::Error;
+    type Instance = {{externCrateName}}::server::Service<server::Server<C>, C>;
+
+    /// Instantiate a new server.
+    fn new_service(&self) -> io::Result<Self::Instance> {
+        Ok({{externCrateName}}::server::Service::new(server::Server::new()))
+    }
 }

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import io.swagger.annotations.*;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class Order  implements Serializable {
@@ -33,10 +34,12 @@ public enum StatusEnum {
     }
 
     @Override
+    @JsonValue
     public String toString() {
         return String.valueOf(value);
     }
 
+    @JsonCreator
     public static StatusEnum fromValue(String v) {
         for (StatusEnum b : StatusEnum.values()) {
             if (String.valueOf(b.value).equals(v)) {
@@ -59,6 +62,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -75,6 +79,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
@@ -91,6 +96,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
@@ -107,6 +113,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
   }
@@ -124,6 +131,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "Order Status")
+  @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
@@ -140,6 +148,7 @@ public enum StatusEnum {
 
   
   @ApiModelProperty(value = "")
+  @JsonProperty("complete")
   public Boolean isComplete() {
     return complete;
   }

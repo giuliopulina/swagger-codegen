@@ -148,8 +148,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Amount](Resources/docs/Model/Amount.md)
  - [ApiResponse](Resources/docs/Model/ApiResponse.md)
  - [Category](Resources/docs/Model/Category.md)
+ - [Currency](Resources/docs/Model/Currency.md)
  - [Order](Resources/docs/Model/Order.md)
  - [Pet](Resources/docs/Model/Pet.md)
  - [Tag](Resources/docs/Model/Tag.md)
